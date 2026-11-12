@@ -72,3 +72,26 @@ namespace InventarioAC.DAL
     }
 }
 ```
+
+## Producto
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace InventarioAC.EL
+{
+    public class Producto
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public Producto() { }
+        public Producto(int id) {  Id = id; }
+        public Producto(int id, string nombre) {
+            Id = id;
+            Nombre = nombre;
+        }
+    }
+}
+```
