@@ -17,7 +17,7 @@ C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.DAL\InventarioAC.D
 
 ## Recomendación
 
-Instalar el paquete con vulnerabilidad a la versión más reciente `9.0.21`. Se puede hacer gráficamente con NuGet o mediante la `Consola del Administrador de paquetes`.
+Instalar el paquete `System.Security.Cryptography.Pkcs 11.0.0` que es la versión más reciente. Se puede hacer gráficamente con NuGet o mediante la `Consola del Administrador de paquetes`.
 
 ### En entorno gráfico
 
