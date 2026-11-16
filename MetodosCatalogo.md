@@ -46,7 +46,7 @@
 
 ```
 
-## En evento Click del botón Agregar en Formulario
+## En evento Click del botón Agregar en FormAgregarProducto
 
 ```chsarp
             string codigo = txtCodigo.Text.Trim();
@@ -64,3 +64,5 @@
                 MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 ```
+
+Nombre.slnx
