@@ -4,6 +4,8 @@
 
 :books: Este método será usado para buscar productos por código (búsqueda exacta) o por aproximación usando LIKE mediante el campo nombre.  
 
+:zap: Este método NO es parte de la interfaz. Observe que recibe un código y un nombre; pero en la interfaz ICatalogo<T> ningún método recibe estos dos parámetros. Así, usted puede agregar más métodos en una clase si es necesario.  
+
 ```csharp
 public static List<Producto> Buscar(string codigo, string nombre)
 {
@@ -45,11 +47,11 @@ public static List<Producto> Buscar(string codigo, string nombre)
     }
     return lista;
 }
-
-     ```
+```
 
 ## Sobrecarga del método Buscar() en la clase ProductoBLL
 
+:warning: Este método tampoco forma parte de la interfaz. Se creó para ejecutar al método Buscar creado anteriormente en ProductoDAL (arriba) y enviar datos al formulario.  
 ```csharp
 public static List<Producto> Buscar(string codigo, string nombre)
 {
@@ -59,7 +61,7 @@ public static List<Producto> Buscar(string codigo, string nombre)
 
 ## FormListaProductos
 
-:books: Este formulario permitirá buscar productos para visualizar los datos, editar o eliminar productos.  
+:books: Este formulario permitirá buscar productos y mostrar sus datos, editar o eliminar productos.  
 
 ![alt text](./img/ListaProductos.png)  
 
@@ -101,6 +103,8 @@ private void FormListaProductos_Load(object sender, EventArgs e)
 ```
 
 ## Evento Painting de dgvProductos en FormListaProductos
+
+:books: Los iconos `editar.ico` y `eliminar.ico` debe copiarlos en el directorio donde se crear el archivo ejecutable. En mi caso es en la carpeta `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`
 
 ```csharp
 private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
