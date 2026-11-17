@@ -1,5 +1,7 @@
 # Categorías de productos
 
+![alt text](./img/CategoriasProductos.png)  
+
 ## Categoria
 ```csharp
 using System;
