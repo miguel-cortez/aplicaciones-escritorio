@@ -26,6 +26,10 @@
 <td>Descripción del producto</td>
 <tr>
 </tr>
+<td>cboCategorias</td>
+<td>Combo de categorías de productos</td>
+<tr>
+</tr>
 <td>btnAgregar</td>
 <td>Agregar el producto en la tabla de base de datos</td>
 <tr>
