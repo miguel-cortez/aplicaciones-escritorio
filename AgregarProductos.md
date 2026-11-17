@@ -1,6 +1,6 @@
 # Métodos de caálogo
 
-# Diseño del formulario Form1
+# Diseño del formulario FormAgregarProducto
 
 ![alt text](./img/FormAgregarProducto.png.png)  
 
@@ -44,7 +44,7 @@
 <table>
 
 
-## Clase Producto
+## Clase Producto - En la capa InventarioAC.EL
 
 ```csharp
     public class Producto
@@ -132,7 +132,9 @@
         }
 ```
 
-## Evento Load del formulario AgregarProductos
+## Evento Load del formulario FormAgregarProducto
+
+:warning: Para programar este evento se hace doble click sobre la ventana. No haga doble click en algún botón, cuadro de texto u otro elemento (tiene que ser doble click sobre la ventana)
 
 :books: Con estas instrucciones se llena el combo de categorías de productos.  
 
