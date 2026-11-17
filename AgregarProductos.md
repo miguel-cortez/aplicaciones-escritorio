@@ -1,6 +1,8 @@
-# Métodos de caálogo
+# Formulario para agregar productos
 
-# Diseño del formulario FormAgregarProducto
+:books: Aquí encontrará las clases y métodos necesarios para agregar productos en una tabla de base de datos.
+
+# Diseño del formulario
 
 ![alt text](./img/FormAgregarProducto.png.png)  
 
@@ -44,115 +46,115 @@
 <table>
 
 
-## Clase Producto - En la capa InventarioAC.EL
+## Clase Producto
+
+:books: Recuerde que toda clase como Producto, Categoria, Cliente, etc. debe crearse en la capa InventarioAC.EL.  
 
 ```csharp
-    public class Producto
+public class Producto
+{
+    public int Id { get; set; }
+    public string Codigo { get; set; }
+    public string Nombre { get; set; }
+    public string Descripcion { get; set; }
+    public Categoria Categoria { get; set;  }
+    public Producto() { }
+    public Producto(int id) {  Id = id; }
+    public Producto(int id, string codigo, string nombre, string descripcion, Categoria categoria) {
+        Id = id;
+        Codigo = codigo;
+        Nombre = nombre;
+        Descripcion = descripcion;
+        Categoria = categoria;
+    }
+}
+```
+
+## Método Agregar de la clase ProductoDAL
+
+```csharp
+public static int Agregar(Producto param1)
+{
+    int id = 0; // Para indicar que no se ha agrega el empleado.
+    try
     {
-        public int Id { get; set; }
-        public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public Categoria Categoria { get; set;  }
-        public Producto() { }
-        public Producto(int id) {  Id = id; }
-        public Producto(int id, string codigo, string nombre, string descripcion, Categoria categoria) {
-            Id = id;
-            Codigo = codigo;
-            Nombre = nombre;
-            Descripcion = descripcion;
-            Categoria = categoria;
+        using (SqlConnection conn = ConexionBD.Conectar())
+        {
+
+            SqlCommand cmd = new SqlCommand("insert into Productos(Codigo, Nombre, Descripcion, CategoriaId) OUTPUT INSERTED.Id values(@Codigo,@Nombre,@Descripcion, @CategoriaId)", conn);
+            cmd.Parameters.AddWithValue("@Codigo", param1.Codigo);
+            cmd.Parameters.AddWithValue("@Nombre", param1.Nombre);
+            cmd.Parameters.AddWithValue("@Descripcion", param1.Descripcion);
+            cmd.Parameters.AddWithValue("@CategoriaId", param1.Categoria.Id);
+            object resultado = cmd.ExecuteScalar();
+            if (resultado != null && resultado != DBNull.Value)
+            {
+                id = Convert.ToInt32(resultado);
+            }
+            conn.Close();
         }
     }
+    catch (Exception ex)
+    {
+        new Log(ex.Message);
+    }
+    return id;
+}
 ```
 
-## Método para agregar productos en ProductoDAL
+## Método Agregar de la clase ProductoBLL
 
 ```csharp
-        public static int Agregar(Producto param1)
-        {
-            int id = 0; // Para indicar que no se ha agrega el empleado.
-            try
-            {
-                using (SqlConnection conn = ConexionBD.Conectar())
-                {
-
-                    SqlCommand cmd = new SqlCommand("insert into Productos(Codigo, Nombre, Descripcion, CategoriaId) OUTPUT INSERTED.Id values(@Codigo,@Nombre,@Descripcion, @CategoriaId)", conn);
-                    //OUTPUT INSERTED.Id 
-                    cmd.Parameters.AddWithValue("@Codigo", param1.Codigo);
-                    cmd.Parameters.AddWithValue("@Nombre", param1.Nombre);
-                    cmd.Parameters.AddWithValue("@Descripcion", param1.Descripcion);
-                    cmd.Parameters.AddWithValue("@CategoriaId", param1.Categoria.Id);
-                    object resultado = cmd.ExecuteScalar();
-                    if (resultado != null && resultado != DBNull.Value)
-                    {
-                        id = Convert.ToInt32(resultado);
-                    }
-                    conn.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                new Log(ex.Message);
-            }
-            return id;
-        }
+public static int Agregar(Producto param1)
+{
+    return ProductoDAL.Agregar(param1);
+}
 ```
 
-## Método para agregar productos en ProductoBLL
+## Evento Click del botón btnAgregar (en formulario FormAgregarProducto)
 
 ```csharp
-        public static int Agregar(Producto param1)
-        {
-           return ProductoDAL.Agregar(param1);
-        }
-
-```
-
-## En evento Click del botón Agregar en FormAgregarProducto
-
-```csharp
-        private void btnAgregar_Click(object sender, EventArgs e)
-        {
-            string codigo = txtCodigo.Text.Trim();
-            string nombre = txtNombre.Text.Trim();
-            string descripcion = txtDescripcion.Text.Trim();
-            Categoria categoria = cboCategorias.SelectedItem as Categoria;
-            Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
-            int id = ProductoBLL.Agregar(p);
-            if(id > 0)
-            {
-                txtId.Text = id.ToString();
-                MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
+private void btnAgregar_Click(object sender, EventArgs e)
+{
+    string codigo = txtCodigo.Text.Trim();
+    string nombre = txtNombre.Text.Trim();
+    string descripcion = txtDescripcion.Text.Trim();
+    Categoria categoria = cboCategorias.SelectedItem as Categoria;
+    Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
+    int id = ProductoBLL.Agregar(p);
+    if(id > 0)
+    {
+        txtId.Text = id.ToString();
+        MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+    else
+    {
+        MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+}
 ```
 
 ## Evento Load del formulario FormAgregarProducto
 
-:warning: Para programar este evento se hace doble click sobre la ventana. No haga doble click en algún botón, cuadro de texto u otro elemento (tiene que ser doble click sobre la ventana)
+:warning: Para programar este evento se hace doble click sobre la ventana. No haga doble click en algún botón, cuadro de texto u otro elemento (tiene que hacer doble click sobre la ventana)
 
 :books: Con estas instrucciones se llena el combo de categorías de productos.  
 
 ```csharp
-        private void FormAgregarProducto_Load(object sender, EventArgs e)
-        {
-            List<Categoria> categorias = CategoriaBLL.ObtenerTodos();
-            cboCategorias.DataSource = categorias;
-            cboCategorias.DisplayMember = "Nombre";
-            cboCategorias.ValueMember = "Id";
-        }
+private void FormAgregarProducto_Load(object sender, EventArgs e)
+{
+    List<Categoria> categorias = CategoriaBLL.ObtenerTodos();
+    cboCategorias.DataSource = categorias;
+    cboCategorias.DisplayMember = "Nombre";
+    cboCategorias.ValueMember = "Id";
+}
 ```
 
-## Evento Click del botón para listar los productos
+## Evento Click del botón btnLista (en FormAgregarProducto)
 
 ```csharp
-        private void btnLista_Click(object sender, EventArgs e)
-        {
-            new FormListaProductos().ShowDialog();
-        }
+private void btnLista_Click(object sender, EventArgs e)
+{
+    new FormListaProductos().ShowDialog();
+}
 ```
