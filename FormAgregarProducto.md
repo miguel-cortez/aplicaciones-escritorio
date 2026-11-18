@@ -115,6 +115,79 @@ public static int Agregar(Producto param1)
 }
 ```
 
+## Método Actualizar de ProductoDAL
+
+```csharp
+public static bool Actualizar(Producto param1)
+{
+    bool actualizado = false; // actualizado = true cuando el registro se actualiza
+    try
+    {
+        using (SqlConnection conn = ConexionBD.Conectar())
+        {
+
+            SqlCommand cmd = new SqlCommand("update Productos set Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, CategoriaId = @CategoriaId Where Id = @Id", conn);
+            cmd.Parameters.AddWithValue("@Id", param1.Id);
+            cmd.Parameters.AddWithValue("@Codigo", param1.Codigo);
+            cmd.Parameters.AddWithValue("@Nombre", param1.Nombre);
+            cmd.Parameters.AddWithValue("@Descripcion", param1.Descripcion);
+            cmd.Parameters.AddWithValue("@CategoriaId", param1.Categoria.Id);
+            int resultado = cmd.ExecuteNonQuery();
+            actualizado = (resultado > 0);
+            conn.Close();
+        }
+    }
+    catch (Exception ex)
+    {
+        new Log(ex.Message);
+    }
+    return actualizado;
+}
+```
+
+## Método Eliminar de la clase ProductoDAL
+
+```csharp
+public static bool Eliminar(Producto param1)
+{
+    bool eliminado = false; // eliminado = true cuando el registro se elimina
+    try
+    {
+        using (SqlConnection conn = ConexionBD.Conectar())
+        {
+
+            SqlCommand cmd = new SqlCommand("delete from Productos Where Id = @Id", conn);
+            cmd.Parameters.AddWithValue("@Id", param1.Id);
+            int resultado = cmd.ExecuteNonQuery();
+            eliminado = (resultado > 0);
+            conn.Close();
+        }
+    }
+    catch (Exception ex)
+    {
+        new Log(ex.Message);
+    }
+    return eliminado;
+}
+```
+
+## Método Actualizar de la clase ProductoBLL
+
+```csharp
+public static bool Actualizar(Producto param1)
+{
+    return ProductoDAL.Actualizar(param1);
+}
+```
+
+## Método Eliminar de la clase ProductoBLL
+```csharp
+public static bool Eliminar(Producto param1)
+{
+    return ProductoDAL.Eliminar(param1);
+}
+```
+
 ## Evento Click del botón btnAgregar (en formulario FormAgregarProducto)
 
 ```csharp
