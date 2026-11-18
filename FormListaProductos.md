@@ -67,6 +67,10 @@ public static List<Producto> Buscar(string codigo, string nombre)
 
 Nombres de los controles: txtCodigo, txtNombre, btnBuscar, dgvProductos
 
+### Difinición de un delegado y un evento para enviar datos al formulario FormAgregarProductos
+
+![alt text](./img/DelegadoEvento.png)  
+
 ## Código del evento Click del botón btnBuscar
 
 ```csharp
@@ -136,3 +140,46 @@ private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEv
 }
 ```
 
+## Evento CellMouseClick de la grid dgvProductos
+```csharp
+private void dgvProductos_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+{
+    if (dgvProductos.CurrentRow != null)
+    {
+        int id = Convert.ToInt32(dgvProductos.CurrentRow.Cells[0].Value);
+        switch (e.ColumnIndex)
+        {
+            case 5: // Editar
+                DataGridViewRow row = dgvProductos.CurrentRow;
+                Producto producto = new Producto(
+                    Convert.ToInt32(row.Cells[0].Value),
+                    Convert.ToString(row.Cells[1].Value),
+                    Convert.ToString(row.Cells[2].Value),
+                    Convert.ToString(row.Cells[3].Value),
+                    (Categoria)row.Cells[4].Value
+                    );
+
+                EventoActualizarProducto(producto);
+                break;
+            case 6: // Eliminar
+                if (MessageBox.Show("¿Está seguro de eliminar el registro?",
+                    "Eliminar registro", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    bool eliminado = ProductoBLL.Eliminar(new Producto(id));
+                    if (eliminado)
+                    {
+                        dgvProductos.Rows.Remove(dgvProductos.CurrentRow);
+                        MessageBox.Show("El registro fue eliminado", "Registro eliminado",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                break;
+        }
+    }
+    else
+    {
+        MessageBox.Show("Seleccione una fila", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+}
+```
