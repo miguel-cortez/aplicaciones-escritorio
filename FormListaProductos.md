@@ -65,7 +65,28 @@ public static List<Producto> Buscar(string codigo, string nombre)
 
 ![alt text](./img/ListaProductos.png)  
 
-Nombres de los controles: txtCodigo, txtNombre, btnBuscar, dgvProductos
+<table>
+<tr>
+<th>Nombre del control</th>
+<th>Descripción</th>
+</tr>
+<tr>
+<td>txtCodigo</td>
+<td>Código del producto que se quiere buscar</td>
+</tr>
+<tr>
+<td>txtNombre</td>
+<td>Nombre o parte del nombre del producto que se quiere buscar</td>
+</tr>
+<tr>
+<td>btnBuscar</td>
+<td>Botón para realizar la búsqueda de producto</td>
+</tr>
+<tr>
+<td>dgvProductos</td>
+<td>Grid que se usa para mostrar la información de los productos encontrados</td>
+</tr>
+</table>
 
 ### Difinición de un delegado y un evento para enviar datos al formulario FormAgregarProductos
 
