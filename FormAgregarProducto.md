@@ -4,45 +4,49 @@
 
 # Diseño del formulario
 
-![alt text](./img/FormAgregarProducto.png.png)  
+![alt text](./img/FormAgregarProducto.png)  
 
 <table>
 <tr>
 <th>Nombre del control</th>
 <th>Descripción</th>
 </tr>
+<tr>
 <td>txtId</td>
 <td>ID del producto</td>
-<tr>
 </tr>
 </tr>
 <td>txtCodigo</td>
 <td>Código del producto</td>
-<tr>
 </tr>
+<tr>
 <td>txtNombre</td>
 <td>Nombre del producto</td>
-<tr>
 </tr>
+<tr>
 <td>txtDescripcion</td>
 <td>Descripción del producto</td>
-<tr>
 </tr>
+<tr>
 <td>cboCategorias</td>
 <td>Combo de categorías de productos</td>
-<tr>
 </tr>
+<tr>
+<td>btnNuevo</td>
+<td>Limpiar el formulario para crear un nuevo producto</td>
+</tr>
+<tr>
 <td>btnAgregar</td>
 <td>Agregar el producto en la tabla de base de datos</td>
-<tr>
 </tr>
+<tr>
 <td>btnLista</td>
 <td>Abrir el formulario para buscar, editar y eliminar productos</td>
-<tr>
 </tr>
+<tr>
 <td>btnCerrar</td>
 <td>Cerrar el formulario</td>
-<tr>
+</tr>
 <table>
 
 
@@ -54,10 +58,10 @@
 public class Producto
 {
     public int Id { get; set; }
-    public string Codigo { get; set; }
-    public string Nombre { get; set; }
-    public string Descripcion { get; set; }
-    public Categoria Categoria { get; set;  }
+    public string? Codigo { get; set; }
+    public string? Nombre { get; set; }
+    public string? Descripcion { get; set; }
+    public Categoria? Categoria { get; set;  }
     public Producto() { }
     public Producto(int id) {  Id = id; }
     public Producto(int id, string codigo, string nombre, string descripcion, Categoria categoria) {
@@ -119,17 +123,34 @@ private void btnAgregar_Click(object sender, EventArgs e)
     string codigo = txtCodigo.Text.Trim();
     string nombre = txtNombre.Text.Trim();
     string descripcion = txtDescripcion.Text.Trim();
-    Categoria categoria = cboCategorias.SelectedItem as Categoria;
+    Categoria? categoria = cboCategorias.SelectedItem as Categoria;
     Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
-    int id = ProductoBLL.Agregar(p);
-    if(id > 0)
+    if (btnAgregar.Text == "Agregar")
     {
-        txtId.Text = id.ToString();
-        MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        int id = ProductoBLL.Agregar(p);
+        if (id > 0)
+        {
+            txtId.Text = id.ToString();
+            MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        else
+        {
+            MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        btnAgregar.Text = "Actualizar";
     }
     else
     {
-        MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        p.Id = Convert.ToInt32(txtId.Text);
+        bool actualizado = ProductoBLL.Actualizar(p);
+        if (actualizado)
+        {
+            MessageBox.Show("El producto se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        else
+        {
+            MessageBox.Show("El producto NO se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 }
 ```
@@ -143,10 +164,13 @@ private void btnAgregar_Click(object sender, EventArgs e)
 ```csharp
 private void FormAgregarProducto_Load(object sender, EventArgs e)
 {
+    this.StartPosition = FormStartPosition.Manual;
+    this.Location = new Point(0, 0);
     List<Categoria> categorias = CategoriaBLL.ObtenerTodos();
     cboCategorias.DataSource = categorias;
     cboCategorias.DisplayMember = "Nombre";
     cboCategorias.ValueMember = "Id";
+    cboCategorias.SelectedIndex = -1;
 }
 ```
 
@@ -155,6 +179,8 @@ private void FormAgregarProducto_Load(object sender, EventArgs e)
 ```csharp
 private void btnLista_Click(object sender, EventArgs e)
 {
-    new FormListaProductos().ShowDialog();
+    FormListaProductos form = new FormListaProductos();
+    form.EventoActualizarProducto += new FormListaProductos.DelegadoActualizarProducto(MostrarDatosProducto);
+    form.ShowDialog();
 }
 ```

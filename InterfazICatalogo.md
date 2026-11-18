@@ -1,8 +1,10 @@
 # Implementación de interfaces
 
+Las interfaces definen los métodos que serán implementados en las clase que utilicen dicha interfaz, por ejemplo: ProductoDAL, CategoriaDAL, EmpleadoDAL, etc.  
+
 ## Interfaz `ICatalogo`
 
-:books: La interfaz `ICatalogo` se ha creado en la capa `EL`.
+:books: Esta interfaz se ha creado en la capa `InventarioAC.EL` 
 
 ```csharp
 using System;
@@ -22,7 +24,9 @@ namespace InventarioAC.EL
 }
 ```
 
-## Implementación de la interfaz `ICatalogo` en la capa `DAL`.
+## Ejemplos de implementación de la interfaz `ICatalogo`
+
+### En la clase ProductoDAL
 
 ```csharp
 using System;
@@ -61,7 +65,7 @@ namespace InventarioAC.DAL
 }
 ```
 
-## Implementación de la interfaz `ICatalogo` en la capa `BLL`.
+### En la clase ProductoBLL
 
 ```csharp
 using System;
@@ -100,3 +104,6 @@ namespace InventarioAC.BLL
     }
 }
 ```
+
+:warning: Arriba, solo se han implementado los métodos de la interfaz pero no se han programado aún.
+

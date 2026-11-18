@@ -28,7 +28,7 @@ namespace InventarioAC.EL
         }
         public override string ToString()
         {
-            return "[" + this.Codigo + "] " + this.Nombre;
+            return "[" + this.Codigo?.Trim() + "] " + this.Nombre;
         }
     }
 }

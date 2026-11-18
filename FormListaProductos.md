@@ -75,7 +75,7 @@ private void btnBuscar_Click(object sender, EventArgs e)
     string cod = txtCodigo.Text.Trim();
     string nomb = txtNombre.Text.Trim();
     List<Producto> lista = ProductoBLL.Buscar(cod, nomb);
-
+    dgvProductos.Rows.Clear();
     foreach (Producto p in lista)
     {
         object[] data = {
