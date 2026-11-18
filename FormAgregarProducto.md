@@ -188,6 +188,65 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
+## Sobrecarga del método Buscar() en la clase ProductoDAL
+
+:books: Este método será usado para buscar productos por código (búsqueda exacta) o por aproximación usando LIKE mediante el campo nombre.  
+
+:zap: Este método NO es parte de la interfaz. Observe que recibe un código y un nombre; pero en la interfaz ICatalogo<T> ningún método recibe estos dos parámetros. Así, usted puede agregar más métodos en una clase si es necesario.  
+
+```csharp
+public static List<Producto> Buscar(string codigo, string nombre)
+{
+    List<Producto> lista = null;
+    try
+    {
+        using (SqlConnection conn = ConexionBD.Conectar())
+        {
+
+            SqlCommand cmd = new SqlCommand("select Id,isnull(Codigo,''),Nombre,isnull(Descripcion,''), CategoriaId from Productos Where Codigo = @Codigo or Nombre LIKE @Nombre", conn);
+            
+            cmd.Parameters.AddWithValue("@Codigo", codigo);
+            cmd.Parameters.AddWithValue("@Nombre", "%" + nombre + "%");
+            
+            SqlDataReader lector = cmd.ExecuteReader();
+            if (lector.HasRows)
+            {
+                lista = new List<Producto>();
+                while (lector.Read())
+                {
+                    Producto producto = new Producto(
+                            lector.GetInt32(0),
+                            lector.GetString(1),
+                            lector.GetString(2),
+                            lector.GetString(3),
+                            CategoriaDAL.Buscar(new Categoria(lector.GetInt32(4)))
+                        );
+
+                    lista.Add(producto);
+                }
+                lector.Close();
+            }
+            conn.Close();
+        }
+    }
+    catch (Exception ex)
+    {
+        new Log(ex.Message);
+    }
+    return lista;
+}
+```
+
+## Sobrecarga del método Buscar() en la clase ProductoBLL
+
+:warning: Este método tampoco forma parte de la interfaz. Se creó para ejecutar al método Buscar creado anteriormente en ProductoDAL (arriba) y enviar datos al formulario.  
+```csharp
+public static List<Producto> Buscar(string codigo, string nombre)
+{
+    return ProductoDAL.Buscar(codigo, nombre);
+}
+```
+
 ## Evento Click del botón btnAgregar (en formulario FormAgregarProducto)
 
 ```csharp
