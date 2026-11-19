@@ -35,7 +35,7 @@ Agregue las líneas que se muestran destacadas con el borde de color rojo.
 
 ![alt text](./img/DelegadoEvento.png)  
 
-## Evento Click del botón btnBuscar
+## Evento `Click` del botón `btnBuscar` 
 
 ```csharp
 private void btnBuscar_Click(object sender, EventArgs e)
@@ -59,9 +59,9 @@ private void btnBuscar_Click(object sender, EventArgs e)
 }
 ```
 
-## Evento Load del formulario
+## Evento `Load` del formulario
 
-:warning: Para ir al evento Load, haga doble click sobre el formulario.  
+:warning: Para ir al evento Load, haga `doble click` sobre el formulario.  
 
 ```csharp
 private void FormListaProductos_Load(object sender, EventArgs e)
@@ -70,7 +70,7 @@ private void FormListaProductos_Load(object sender, EventArgs e)
 }
 ```
 
-## Evento Painting de dgvProductos
+## Evento `Painting` de `dgvProductos`  
 
 :books: Los iconos `editar.ico` y `eliminar.ico` deben ser copiados en el directorio del archivo ejecutable. En mi caso, es el directorio `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`
 
@@ -104,7 +104,7 @@ private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEv
 }
 ```
 
-## Evento CellMouseClick de dgvProductos
+## Evento `CellMouseClick` de `dgvProductos`
 ```csharp
 private void dgvProductos_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 {
