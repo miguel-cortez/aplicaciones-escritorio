@@ -108,24 +108,15 @@ private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEv
 
 Los iconos ![alt text](./img/editar.ico) `editar.ico` y ![alt text](./img/eliminar.ico) `eliminar.ico` deben ser copiados en el directorio del archivo ejecutable. En mi caso, es el directorio `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`.  
 
-:zap: Pueden encontra iconos en esta URL https://icon-icons.com/es/ 
+### ¿Cómo obtener un icono?
+1. Buscar en su computadora, con el comodín *.ico en `CMD` o el `Explorador de Windows`.  
 
-Ejemplo de cómo se descarga un icono:
+2. Buscar archivos de tio ICO en Internet.
 
-![alt text](./img/DescargaIcono.png)  
+    :zap: Existen muchos sitios en Internet para descargar imágenes en diferentes formatos. Una página es https://icon-icons.com/es/ 
 
-:zap: También pueden usar una herramienta en línea para subir una imagen y convertirla a icono. Esta es una herramienta que pueden usar: https://imagen.online-convert.com/es/convertir-a-ico
+3. Si tiene una imagen, la puede convertir a archivo de tipo ICO. Existen muchos sitios web que permiten convertir imágenes. Una página web que puede usar es https://imagen.online-convert.com/es/convertir-a-ico
 
-Luego el icono se descarga y se copia en la carpeta del archivo ejecutable.  
-
-:zap: Si no encuentra algún icono, en su computadora puede encontrar archivos de este tipo. Una forma de encontrar inconos en su computadora es ejecutando los siguientes comandos en CMD:  
-
-```bash
-cd /
-dir *.ico /s
-```
-
-Se listarán los directorios donde hay archivos de tipo ICONO pero este comando tardaría mucho tiempo en finalizar. Puede cancelar la búsqueda con `CTRL + C`. Luego, en el explorador de Windows debería ir a buscar los iconos en una de las carpetas listadas para copiar el archivo que necesita.  
 
 ## Evento `CellMouseClick` de `dgvProductos`
 ```csharp
