@@ -109,13 +109,13 @@ private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEv
 Los iconos ![alt text](./img/editar.ico) `editar.ico` y ![alt text](./img/eliminar.ico) `eliminar.ico` deben ser copiados en el directorio del archivo ejecutable. En mi caso, es el directorio `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`.  
 
 ### ¿Cómo obtener un icono?
-1. Buscar en su computadora, con el comodín *.ico en `CMD` o el `Explorador de Windows`.  
+1. **Primera opción**. Buscar en su computadora, con el comodín *.ico en `CMD` o el `Explorador de Windows`.  
 
-2. Buscar archivos de tio ICO en Internet.
+2. **Segunda opción**. Buscar archivos de tio ICO en Internet.
 
     :zap: Existen muchos sitios en Internet para descargar imágenes en diferentes formatos. Una página es https://icon-icons.com/es/ 
 
-3. Si tiene una imagen, la puede convertir a archivo de tipo ICO. Existen muchos sitios web que permiten convertir imágenes. Una página web que puede usar es https://imagen.online-convert.com/es/convertir-a-ico
+3. **Tercera opción**. Si tiene una imagen, la puede convertir a archivo de tipo ICO. Existen muchos sitios web que permiten convertir imágenes. Una página web que puede usar es https://imagen.online-convert.com/es/convertir-a-ico
 
 
 ## Evento `CellMouseClick` de `dgvProductos`
