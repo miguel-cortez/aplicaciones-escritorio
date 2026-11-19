@@ -1,54 +1,4 @@
-# Formulario para agregar productos
-
-:books: Aquí encontrará las clases y métodos necesarios para agregar productos en una tabla de base de datos.
-
-# Diseño del formulario
-
-![alt text](./img/FormAgregarProducto.png)  
-
-<table>
-<tr>
-<th>Nombre del control</th>
-<th>Descripción</th>
-</tr>
-<tr>
-<td>txtId</td>
-<td>ID del producto</td>
-</tr>
-</tr>
-<td>txtCodigo</td>
-<td>Código del producto</td>
-</tr>
-<tr>
-<td>txtNombre</td>
-<td>Nombre del producto</td>
-</tr>
-<tr>
-<td>txtDescripcion</td>
-<td>Descripción del producto</td>
-</tr>
-<tr>
-<td>cboCategorias</td>
-<td>Combo de categorías de productos</td>
-</tr>
-<tr>
-<td>btnNuevo</td>
-<td>Limpiar el formulario para crear un nuevo producto</td>
-</tr>
-<tr>
-<td>btnAgregar</td>
-<td>Agregar el producto en la tabla de base de datos</td>
-</tr>
-<tr>
-<td>btnLista</td>
-<td>Abrir el formulario para buscar, editar y eliminar productos</td>
-</tr>
-<tr>
-<td>btnCerrar</td>
-<td>Cerrar el formulario</td>
-</tr>
-<table>
-
+# Clases y métodos - EL, DAL y BLL
 
 ## Clase `Producto` 
 
@@ -73,7 +23,6 @@ public class Producto
     }
 }
 ```
-
 ## Método `Agregar` de la clase `ProductoDAL`
 
 ```csharp
@@ -162,31 +111,6 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
-## Método `Actualizar` de la clase `ProductoBLL`
-```csharp
-public static int Agregar(Producto param1)
-{
-    return ProductoDAL.Agregar(param1);
-}
-```
-
-## Método `Actualizar` de la clase `ProductoBLL`
-
-```csharp
-public static bool Actualizar(Producto param1)
-{
-    return ProductoDAL.Actualizar(param1);
-}
-```
-
-## Método `Eliminar` de la clase `ProductoBLL` 
-```csharp
-public static bool Eliminar(Producto param1)
-{
-    return ProductoDAL.Eliminar(param1);
-}
-```
-
 ## Método `Buscar(string codigo, string nombre)` de la clase `ProductoDAL` 
 
 Método para buscar productos por código (búsqueda exacta) o por nombre de producto. La búsqueda por nombre utiliza `LIKE`, comando de base de datos para buscar partes de cadena dentro de un campo.  
@@ -236,6 +160,31 @@ public static List<Producto> Buscar(string codigo, string nombre)
 }
 ```
 
+## Método `Agregar` de la clase `ProductoBLL`
+```csharp
+public static int Agregar(Producto param1)
+{
+    return ProductoDAL.Agregar(param1);
+}
+```
+
+## Método `Actualizar` de la clase `ProductoBLL`
+
+```csharp
+public static bool Actualizar(Producto param1)
+{
+    return ProductoDAL.Actualizar(param1);
+}
+```
+
+## Método `Eliminar` de la clase `ProductoBLL` 
+```csharp
+public static bool Eliminar(Producto param1)
+{
+    return ProductoDAL.Eliminar(param1);
+}
+```
+
 ## Método `Buscar(string codigo, string nombre)` en la clase `ProductoBLL`  
 
 :warning: Este método tampoco forma parte de la interfaz `ICatalogo`. Se creó para ejecutar al método `Buscar(string codigo, string nombre)` programado anteriormente en la clase `ProductoDAL`.  
@@ -246,6 +195,57 @@ public static List<Producto> Buscar(string codigo, string nombre)
     return ProductoDAL.Buscar(codigo, nombre);
 }
 ```
+
+# FormAgregarProducto
+
+:books: Aquí encontrará las clases y métodos necesarios para agregar productos en una tabla de base de datos.
+
+# Diseño del formulario
+
+![alt text](./img/FormAgregarProducto.png)  
+
+<table>
+<tr>
+<th>Nombre del control</th>
+<th>Descripción</th>
+</tr>
+<tr>
+<td>txtId</td>
+<td>ID del producto</td>
+</tr>
+</tr>
+<td>txtCodigo</td>
+<td>Código del producto</td>
+</tr>
+<tr>
+<td>txtNombre</td>
+<td>Nombre del producto</td>
+</tr>
+<tr>
+<td>txtDescripcion</td>
+<td>Descripción del producto</td>
+</tr>
+<tr>
+<td>cboCategorias</td>
+<td>Combo de categorías de productos</td>
+</tr>
+<tr>
+<td>btnNuevo</td>
+<td>Limpiar el formulario para crear un nuevo producto</td>
+</tr>
+<tr>
+<td>btnAgregar</td>
+<td>Agregar el producto en la tabla de base de datos</td>
+</tr>
+<tr>
+<td>btnLista</td>
+<td>Abrir el formulario para buscar, editar y eliminar productos</td>
+</tr>
+<tr>
+<td>btnCerrar</td>
+<td>Cerrar el formulario</td>
+</tr>
+<table>
 
 ## Evento `Click` del botón `btnAgregar`  
 
