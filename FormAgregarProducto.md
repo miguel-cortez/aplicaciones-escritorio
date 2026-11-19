@@ -115,7 +115,7 @@ public static bool Eliminar(Producto param1)
 
 Método para buscar productos por código (búsqueda exacta) o por nombre de producto. La búsqueda por nombre utiliza `LIKE`, comando de base de datos para buscar partes de cadena dentro de un campo.  
 
-:warning: Este método **NO** es parte de la interfaz `ICatalogo`. Observe que recibe dos parámetros: `código` y `nombre`; pero en la interfaz `ICatalogo` ningún método llamado `Buscar` recibe los parámetros `codigo` y `nombre`.  
+:warning: Este método **NO** es parte de la interfaz `ICatalogo`. Observe que recibe dos parámetros: `codigo` y `nombre`; pero en la interfaz `ICatalogo` ningún método llamado `Buscar` recibe los parámetros `codigo` y `nombre`.  
 
 ```csharp
 public static List<Producto> Buscar(string codigo, string nombre)
@@ -198,9 +198,7 @@ public static List<Producto> Buscar(string codigo, string nombre)
 
 # FormAgregarProducto
 
-:books: Aquí encontrará las clases y métodos necesarios para agregar productos en una tabla de base de datos.
-
-# Diseño del formulario
+## Diseño del formulario
 
 ![alt text](./img/FormAgregarProducto.png)  
 
