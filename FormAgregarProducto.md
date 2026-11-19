@@ -185,7 +185,7 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
-## Método `Buscar(string codigo, string nombre)` en la clase `ProductoBLL`  
+## Método `Buscar(string codigo, string nombre)` de la clase `ProductoBLL`  
 
 :warning: Este método tampoco forma parte de la interfaz `ICatalogo`. Se creó para ejecutar al método `Buscar(string codigo, string nombre)` programado anteriormente en la clase `ProductoDAL`.  
 
@@ -247,6 +247,49 @@ public static List<Producto> Buscar(string codigo, string nombre)
 </tr>
 <table>
 
+## Evento `Load` de `FormAgregarProducto` 
+
+:warning: Para programar este evento se hace `doble click` sobre la ventana. Asegúrese de no hacer doble click en algún botón, cuadro de texto u otro control.  
+
+:dart: Estas instrucciones tienen como objetivo ubicar el formulario `FormAgregarProducto` en la esquina superior izquierda del fomulario `MdiParent1` y llenar el combo `cboCategorias` con las categorías de productos.  
+
+```csharp
+private void FormAgregarProducto_Load(object sender, EventArgs e)
+{
+    this.StartPosition = FormStartPosition.Manual;
+    this.Location = new Point(0, 0);
+    List<Categoria> categorias = CategoriaBLL.ObtenerTodos();
+    cboCategorias.DataSource = categorias;
+    cboCategorias.DisplayMember = "Nombre";
+    cboCategorias.ValueMember = "Id";
+    cboCategorias.SelectedIndex = -1;
+}
+```
+
+## Método `LimpiarFormulario` de `FormAgregarProducto` 
+
+```csharp
+private void LimpiarFormulario()
+{
+    txtId.Text = String.Empty;
+    txtCodigo.Text = String.Empty;
+    txtNombre.Text = String.Empty;
+    txtDescripcion.Text = String.Empty;
+    cboCategorias.SelectedIndex = -1;
+    this.Text = "Agregar producto";
+    txtCodigo.Focus();
+}
+```
+
+## Evento `Click` de `btnNuevo` 
+```csharp
+private void btnNuevo_Click(object sender, EventArgs e)
+{
+    LimpiarFormulario();
+    btnAgregar.Text = "Agregar";
+}
+```
+
 ## Evento `Click` del botón `btnAgregar`  
 
 ```csharp
@@ -287,25 +330,6 @@ private void btnAgregar_Click(object sender, EventArgs e)
 }
 ```
 
-## Evento `Load` de `FormAgregarProducto` 
-
-:warning: Para programar este evento se hace `doble click` sobre la ventana. Asegúrese de no hacer doble click en algún botón, cuadro de texto u otro control.  
-
-:dart: Estas instrucciones tienen como objetivo ubicar el formulario `FormAgregarProducto` en la esquina superior izquierda del fomulario `MdiParent1` y llenar el combo `cboCategorias` con las categorías de productos.  
-
-```csharp
-private void FormAgregarProducto_Load(object sender, EventArgs e)
-{
-    this.StartPosition = FormStartPosition.Manual;
-    this.Location = new Point(0, 0);
-    List<Categoria> categorias = CategoriaBLL.ObtenerTodos();
-    cboCategorias.DataSource = categorias;
-    cboCategorias.DisplayMember = "Nombre";
-    cboCategorias.ValueMember = "Id";
-    cboCategorias.SelectedIndex = -1;
-}
-```
-
 ## Evento `Click` del botón `btnLista`  
 
 ```csharp
@@ -314,5 +338,35 @@ private void btnLista_Click(object sender, EventArgs e)
     FormListaProductos form = new FormListaProductos();
     form.EventoActualizarProducto += new FormListaProductos.DelegadoActualizarProducto(MostrarDatosProducto);
     form.ShowDialog();
+}
+```
+
+## Método `MostrarDatosProducto` 
+
+:warning: Se crea en el formulario `FormAgregarProducto`.
+
+:books: Este método muestra en el formulario la información del producto que será actualizado. La información es enviada desde el formulario `FormListaProducto` mediante el comando `EventoActualizarProducto(producto);` (cuando el usuario hace clic en la columna número 5) de `dgvProductos`.  
+
+```csharp
+void MostrarDatosProducto(Producto producto)
+{
+    if (producto != null)
+    {
+        txtId.Text = producto.Id.ToString();
+        txtCodigo.Text = producto.Codigo?.Trim();
+        txtNombre.Text = producto.Nombre?.Trim();
+        txtDescripcion.Text = producto.Descripcion?.Trim();
+        cboCategorias.SelectedValue = producto.Categoria.Id;
+        btnAgregar.Text = "Actualizar";
+        this.Text = "Actualizar producto";
+    }
+}
+```
+
+## Evento `Click` de `btnCerrar` 
+```csharp
+private void btnCerrar_Click(object sender, EventArgs e)
+{
+    this.Dispose();
 }
 ```
