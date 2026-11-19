@@ -29,6 +29,10 @@
 </tr>
 </table>
 
+El formulario en ejecución se verá así:  
+
+![alt text](./img/FormListaProductosEjecucion.png)  
+
 ## Delegado y evento
 
 Agregue las líneas que se muestran destacadas con el borde de color rojo.  
