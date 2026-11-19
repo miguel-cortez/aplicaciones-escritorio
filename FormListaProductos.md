@@ -106,7 +106,7 @@ private void dgvProductos_CellPainting(object sender, DataGridViewCellPaintingEv
 }
 ```
 
-:books: Los iconos `editar.ico` y `eliminar.ico` deben ser copiados en el directorio del archivo ejecutable. En mi caso, es el directorio `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`.  
+Los iconos ![alt text](./img/editar.ico) `editar.ico` y ![alt text](./img/eliminar.ico) `eliminar.ico` deben ser copiados en el directorio del archivo ejecutable. En mi caso, es el directorio `C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows`.  
 
 :zap: Pueden encontra iconos en esta URL https://icon-icons.com/es/ 
 
