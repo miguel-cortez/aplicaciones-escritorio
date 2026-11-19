@@ -50,7 +50,7 @@
 <table>
 
 
-## Clase Producto
+## Clase `Producto` 
 
 :books: Recuerde que toda clase como Producto, Categoria, Cliente, etc. debe crearse en la capa InventarioAC.EL.  
 
@@ -74,7 +74,7 @@ public class Producto
 }
 ```
 
-## Método Agregar de la clase ProductoDAL
+## Método `Agregar` de la clase `ProductoDAL`
 
 ```csharp
 public static int Agregar(Producto param1)
@@ -106,16 +106,7 @@ public static int Agregar(Producto param1)
 }
 ```
 
-## Método Agregar de la clase ProductoBLL
-
-```csharp
-public static int Agregar(Producto param1)
-{
-    return ProductoDAL.Agregar(param1);
-}
-```
-
-## Método Actualizar de ProductoDAL
+## Método `Actualizar` de la clase `ProductoDAL`
 
 ```csharp
 public static bool Actualizar(Producto param1)
@@ -145,7 +136,7 @@ public static bool Actualizar(Producto param1)
 }
 ```
 
-## Método Eliminar de la clase ProductoDAL
+## Método `Eliminar` de la clase `ProductoDAL`
 
 ```csharp
 public static bool Eliminar(Producto param1)
@@ -171,7 +162,15 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
-## Método Actualizar de la clase ProductoBLL
+## Método `Actualizar` de la clase `ProductoBLL`
+```csharp
+public static int Agregar(Producto param1)
+{
+    return ProductoDAL.Agregar(param1);
+}
+```
+
+## Método `Actualizar` de la clase `ProductoBLL`
 
 ```csharp
 public static bool Actualizar(Producto param1)
@@ -180,7 +179,7 @@ public static bool Actualizar(Producto param1)
 }
 ```
 
-## Método Eliminar de la clase ProductoBLL
+## Método `Eliminar` de la clase `ProductoBLL` 
 ```csharp
 public static bool Eliminar(Producto param1)
 {
@@ -188,11 +187,11 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
-## Sobrecarga del método Buscar() en la clase ProductoDAL
+## Método `Buscar(string codigo, string nombre)` de la clase `ProductoDAL` 
 
-:books: Este método será usado para buscar productos por código (búsqueda exacta) o por aproximación usando LIKE mediante el campo nombre.  
+Método para buscar productos por código (búsqueda exacta) o por nombre de producto. La búsqueda por nombre utiliza `LIKE`, comando de base de datos para buscar partes de cadena dentro de un campo.  
 
-:zap: Este método NO es parte de la interfaz. Observe que recibe un código y un nombre; pero en la interfaz ICatalogo<T> ningún método recibe estos dos parámetros. Así, usted puede agregar más métodos en una clase si es necesario.  
+:warning: Este método **NO** es parte de la interfaz `ICatalogo`. Observe que recibe dos parámetros: `código` y `nombre`; pero en la interfaz `ICatalogo` ningún método llamado `Buscar` recibe los parámetros `codigo` y `nombre`.  
 
 ```csharp
 public static List<Producto> Buscar(string codigo, string nombre)
@@ -237,9 +236,10 @@ public static List<Producto> Buscar(string codigo, string nombre)
 }
 ```
 
-## Sobrecarga del método Buscar() en la clase ProductoBLL
+## Método `Buscar(string codigo, string nombre)` en la clase `ProductoBLL`  
 
-:warning: Este método tampoco forma parte de la interfaz. Se creó para ejecutar al método Buscar creado anteriormente en ProductoDAL (arriba) y enviar datos al formulario.  
+:warning: Este método tampoco forma parte de la interfaz `ICatalogo`. Se creó para ejecutar al método `Buscar(string codigo, string nombre)` programado anteriormente en la clase `ProductoDAL`.  
+
 ```csharp
 public static List<Producto> Buscar(string codigo, string nombre)
 {
@@ -247,7 +247,7 @@ public static List<Producto> Buscar(string codigo, string nombre)
 }
 ```
 
-## Evento Click del botón btnAgregar (en formulario FormAgregarProducto)
+## Evento `Click` del botón `btnAgregar`  
 
 ```csharp
 private void btnAgregar_Click(object sender, EventArgs e)
@@ -287,11 +287,11 @@ private void btnAgregar_Click(object sender, EventArgs e)
 }
 ```
 
-## Evento Load del formulario FormAgregarProducto
+## Evento `Load` de `FormAgregarProducto` 
 
-:warning: Para programar este evento se hace doble click sobre la ventana. No haga doble click en algún botón, cuadro de texto u otro elemento (tiene que hacer doble click sobre la ventana)
+:warning: Para programar este evento se hace `doble click` sobre la ventana. Asegúrese de no hacer doble click en algún botón, cuadro de texto u otro control.  
 
-:books: Con estas instrucciones se llena el combo de categorías de productos.  
+:dart: Estas instrucciones tienen como objetivo ubicar el formulario `FormAgregarProducto` en la esquina superior izquierda del fomulario `MdiParent1` y llenar el combo `cboCategorias` con las categorías de productos.  
 
 ```csharp
 private void FormAgregarProducto_Load(object sender, EventArgs e)
@@ -306,7 +306,7 @@ private void FormAgregarProducto_Load(object sender, EventArgs e)
 }
 ```
 
-## Evento Click del botón btnLista (en FormAgregarProducto)
+## Evento `Click` del botón `btnLista`  
 
 ```csharp
 private void btnLista_Click(object sender, EventArgs e)
