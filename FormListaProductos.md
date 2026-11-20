@@ -48,9 +48,11 @@ private void btnBuscar_Click(object sender, EventArgs e)
     string nomb = txtNombre.Text.Trim();
     List<Producto> lista = ProductoBLL.Buscar(cod, nomb);
     dgvProductos.Rows.Clear();
-    foreach (Producto p in lista)
+    if(lista != null)
     {
-        object[] data = {
+        foreach (Producto p in lista)
+        {
+            object[] data = {
                 p.Id,
                 p.Codigo,
                 p.Nombre,
@@ -58,7 +60,12 @@ private void btnBuscar_Click(object sender, EventArgs e)
                 p.Categoria,
                 "",
                 "" };
-        dgvProductos.Rows.Add(data);
+            dgvProductos.Rows.Add(data);
+        }
+    }
+    else
+    {
+        MessageBox.Show("No se han encontrado datos", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 }
 ```
