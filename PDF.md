@@ -54,10 +54,11 @@ Se presentó un error en el uso de la interfaz `IContainer`. El error ocurre por
 
 ![alt text](./img/ErrorIContainer.png)  
 
-:eye: Los espacios de nombres son los siguientes que tienen la interfaz `IContainer` son:  
+:eye: Los espacios de nombres que tienen la interfaz `IContainer` son los siguientes:  
 
 ```csharp
 using System.ComponentModel; // 🔖 Este espacio de nombres no es el correcto para crear el informe PDF con QuestPDF; pero creo que se agregó automáticamente cuando se pegó el código de ejemplo desde la documentación de QuestPDF.  
 using QuestPDF.Infrastructure;
 ```
 
+:warning: Si el formulario `PDFProductos` tiene el espacio de nombres `using System.ComponentModel;` elimine esa línea.  
