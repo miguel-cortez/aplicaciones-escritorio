@@ -125,12 +125,17 @@ public static List<Producto> Buscar(string codigo, string nombre)
     {
         using (SqlConnection conn = ConexionBD.Conectar())
         {
-
-            SqlCommand cmd = new SqlCommand("select Id,isnull(Codigo,''),Nombre,isnull(Descripcion,''), CategoriaId from Productos Where Codigo = @Codigo or Nombre LIKE @Nombre", conn);
-            
-            cmd.Parameters.AddWithValue("@Codigo", codigo);
-            cmd.Parameters.AddWithValue("@Nombre", "%" + nombre + "%");
-            
+            SqlCommand cmd = null;
+            if (String.IsNullOrEmpty(nombre))
+            {
+                cmd = new SqlCommand("select Id,isnull(Codigo,''),Nombre,isnull(Descripcion,''), CategoriaId from Productos Where Codigo = @Codigo", conn);
+            }
+            else
+            {
+                cmd = new SqlCommand("select Id,isnull(Codigo,''),Nombre,isnull(Descripcion,''), CategoriaId from Productos Where Codigo = @Codigo or Nombre LIKE @Nombre", conn);
+                cmd.Parameters.AddWithValue("@Nombre", "%" + nombre + "%");
+            } 
+            cmd.Parameters.AddWithValue("@Codigo", codigo);                 
             SqlDataReader lector = cmd.ExecuteReader();
             if (lector.HasRows)
             {
@@ -293,40 +298,111 @@ private void btnNuevo_Click(object sender, EventArgs e)
 ```csharp
 private void btnAgregar_Click(object sender, EventArgs e)
 {
-    string codigo = txtCodigo.Text.Trim();
-    string nombre = txtNombre.Text.Trim();
-    string descripcion = txtDescripcion.Text.Trim();
-    Categoria? categoria = cboCategorias.SelectedItem as Categoria;
-    Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
-    if (btnAgregar.Text == "Agregar")
+    if (String.IsNullOrEmpty(txtCodigo.Text.Trim()))
     {
-        int id = ProductoBLL.Agregar(p);
-        if (id > 0)
-        {
-            txtId.Text = id.ToString();
-            MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        else
-        {
-            MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-        btnAgregar.Text = "Actualizar";
+        MessageBox.Show("No ha escrito el código", "Llene el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+    else if (String.IsNullOrEmpty(txtNombre.Text.Trim())){
+        MessageBox.Show("No ha escrito el nombre", "Llene el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+    else if (String.IsNullOrEmpty(txtNombre.Text.Trim())){
+        MessageBox.Show("No ha escrito la descripción", "Llene el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+
+    else if (cboCategorias.SelectedIndex < 0)
+    {
+        MessageBox.Show("No ha seleccionado la categoría", "Llene el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
     else
     {
-        p.Id = Convert.ToInt32(txtId.Text);
-        bool actualizado = ProductoBLL.Actualizar(p);
-        if (actualizado)
+        string codigo = txtCodigo.Text.Trim();
+        string nombre = txtNombre.Text.Trim();
+        string descripcion = txtDescripcion.Text.Trim();
+        Categoria? categoria = cboCategorias.SelectedItem as Categoria;
+        Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
+        if (btnAgregar.Text == "Agregar")
         {
-            MessageBox.Show("El producto se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            int id = ProductoBLL.Agregar(p);
+            if (id > 0)
+            {
+                txtId.Text = id.ToString();
+                MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            btnAgregar.Text = "Actualizar";
         }
         else
         {
-            MessageBox.Show("El producto NO se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            p.Id = Convert.ToInt32(txtId.Text);
+            bool actualizado = ProductoBLL.Actualizar(p);
+            if (actualizado)
+            {
+                MessageBox.Show("El producto se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("El producto NO se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
 ```
+
+<details>
+<summary>Forma corta</summary>
+
+```csharp
+private void btnAgregar_Click(object sender, EventArgs e)
+{
+    if (
+        !String.IsNullOrEmpty(txtCodigo.Text.Trim()) &&
+        !String.IsNullOrEmpty(txtNombre.Text.Trim()) && 
+        !String.IsNullOrEmpty(txtDescripcion.Text.Trim()) && 
+        cboCategorias.SelectedIndex >=0)
+    {
+        string codigo = txtCodigo.Text.Trim();
+        string nombre = txtNombre.Text.Trim();
+        string descripcion = txtDescripcion.Text.Trim();
+        Categoria? categoria = cboCategorias.SelectedItem as Categoria;
+        Producto p = new Producto(-1, codigo, nombre, descripcion, categoria);
+        if (btnAgregar.Text == "Agregar")
+        {
+            int id = ProductoBLL.Agregar(p);
+            if (id > 0)
+            {
+                txtId.Text = id.ToString();
+                MessageBox.Show("El producto se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("El producto NO se agregó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            btnAgregar.Text = "Actualizar";
+        }
+        else
+        {
+            p.Id = Convert.ToInt32(txtId.Text);
+            bool actualizado = ProductoBLL.Actualizar(p);
+            if (actualizado)
+            {
+                MessageBox.Show("El producto se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("El producto NO se actualizó", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+    }
+    else
+    {
+        MessageBox.Show("No ha llenado correctamente el formulario", "Llene el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+}
+```
+</details>
 
 ## Evento `Click` del botón `btnLista`  
 
