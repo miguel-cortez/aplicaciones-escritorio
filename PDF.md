@@ -19,3 +19,18 @@ https://www.questpdf.com/quick-start.html
 
 https://www.questpdf.com/api-reference/page/basics.html
 
+```csharp
+private void chkTodas_CheckedChanged(object sender, EventArgs e)
+{
+    if (chkTodas.Checked)
+    {
+        cboCategorias.Visible = false;
+        label1.Visible = false;
+    }
+    else
+    {
+        cboCategorias.Visible = true;
+        label1.Visible = true;
+    }
+}
+```
