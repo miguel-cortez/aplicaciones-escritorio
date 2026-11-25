@@ -72,3 +72,140 @@ NOTAS: 25/11/2026
 :books: Programe el método ObtenerTodos() en ProductoBLL  
 
 :books: Programe el método Obtener(Categoria categoria) en ProductoBLL  
+
+## Evento `Click` del botón `btnGeneerarPDF` 
+
+```csharp
+private void btnGenerarPDF_Click(object sender, EventArgs e)
+{
+    var reportColumns = new List<ReportColumn>
+    {
+        new(Header: "ID",        IsConstantWidth: true,  Size: 40),
+        new(Header: "CÓDIGO",    IsConstantWidth: false, Size: 60),
+        new(Header: "NOMBRE",  IsConstantWidth: false, Size: 100),
+        new(Header: "DESCRIPCIÓN",   IsConstantWidth: false,  Size: 150),
+        new(Header: "CATEGORÍA", IsConstantWidth: false,  Size: 150)
+    };
+    List<Producto> productos = null;
+    if(chkTodas.Checked)
+        productos = ProductoBLL.ObtenerTodos();
+    else
+    {
+        if(cboCategorias.SelectedIndex != -1)
+        {
+            productos = ProductoBLL.Obtener(cboCategorias.SelectedItem as Categoria);
+            reportColumns = new List<ReportColumn>
+            {
+                new(Header: "ID",        IsConstantWidth: true,  Size: 40),
+                new(Header: "CÓDIGO",    IsConstantWidth: false, Size: 60),
+                new(Header: "NOMBRE",  IsConstantWidth: false, Size: 100),
+                new(Header: "DESCRIPCIÓN",   IsConstantWidth: false,  Size: 150)
+            };
+        }
+        else
+        {
+            MessageBox.Show("No ha seleccionado una categoría", "Seleccione una categoría", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+    }
+    QuestPDF.Settings.License = LicenseType.Evaluation;
+
+    Document.Create(container =>
+    {
+        container.Page(page =>
+        {
+            page.Size(PageSizes.A4);
+            page.Margin(2, Unit.Centimetre);
+            page.PageColor(Colors.White);
+            page.DefaultTextStyle(x => x.FontSize(10));
+
+
+            page.Header()
+                .Column(column =>
+                {
+                    column.Item().Text("Informe de productos")
+                    .SemiBold().FontSize(14).FontColor(Colors.Blue.Medium);
+
+                    if (!chkTodas.Checked && cboCategorias.SelectedIndex != -1)
+                    {
+                        column.Item()
+                            .Text((cboCategorias.SelectedItem as Categoria).Nombre)
+                            .FontSize(12)
+                            .FontColor(Colors.Grey.Medium);
+                    }
+                });
+
+
+            page.Content()
+                .PaddingVertical(1, Unit.Centimetre)
+                .Column(x =>
+                {
+                    x.Spacing(20);
+
+                    x.Item().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            foreach (var column in reportColumns)
+                            {
+                                if (column.IsConstantWidth)
+                                    columns.ConstantColumn(column.Size);
+                                else
+                                    columns.RelativeColumn(column.Size);
+                            }
+                        });
+
+                        table.Header(header =>
+                        {
+                            foreach (var column in reportColumns)
+                                header.Cell().Element(HeaderCellStyle).Text(column.Header);
+
+                            static IContainer HeaderCellStyle(IContainer container)
+                            {
+                                return container
+                                    .Background(Colors.Blue.Darken2)
+                                    .DefaultTextStyle(x => x.FontColor(Colors.White).SemiBold())
+                                    .PaddingVertical(8)
+                                    .PaddingHorizontal(10);
+                            }
+                        });
+
+                        
+                        foreach(Producto producto in productos)
+                        {
+
+                            table.Cell().Element(CellStyle).Text(producto.Id.ToString());
+                            table.Cell().Element(CellStyle).Text(producto.Codigo);
+                            table.Cell().Element(CellStyle).Text(producto.Nombre);
+                            table.Cell().Element(CellStyle).Text(producto.Descripcion);
+                            if (chkTodas.Checked)
+                            {
+                                table.Cell().Element(CellStyle).Text(producto.Categoria.Nombre);
+                            }
+                        }
+                        static IContainer CellStyle(IContainer container)
+                        {
+                            return container
+                                .BorderBottom(1)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .PaddingVertical(8)
+                                .PaddingHorizontal(10);
+                        }
+                    });
+                });
+
+            page.Footer()
+                .AlignCenter()
+                .Text(x =>
+                {
+                    x.Span("Página ");
+                    x.CurrentPageNumber();
+                });
+        });
+    })
+    .GeneratePdf("productos.pdf");
+    string rutaPDF = @"C:\Users\Miguel Cortez\source\repos\InventarioAC\InventarioAC.UI\bin\Debug\net10.0-windows\productos.pdf";
+
+    webView21.Source = new Uri(rutaPDF);
+}
+```
