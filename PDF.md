@@ -64,10 +64,11 @@ using QuestPDF.Infrastructure;
 :warning: Si el formulario `PDFProductos` tiene el espacio de nombres `using System.ComponentModel;` elimine esa línea.  
 
 NOTAS: 25/11/2026
+
 :books: Programe el método ObtenerTodos() en ProductoDAL  
 
 :books: Programe el método Obtener(Categoria categoria) en ProductoDAL  
 
 :books: Programe el método ObtenerTodos() en ProductoBLL  
 
-:books: Programe el método Obtener(Categoria categoria) en ProductoDAL  
+:books: Programe el método Obtener(Categoria categoria) en ProductoBLL  
