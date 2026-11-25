@@ -111,6 +111,46 @@ public static bool Eliminar(Producto param1)
 }
 ```
 
+## Método `ObtenerTodos` de la clase `ProductoDAL` 
+
+```csharp
+public static List<Producto> ObtenerTodos()
+{
+    List<Producto> lista = null;
+    try
+    {
+        using (SqlConnection conn = ConexionBD.Conectar())
+        {
+            SqlCommand cmd = new SqlCommand("select Id,isnull(Codigo,''),Nombre,isnull(Descripcion,''), CategoriaId from Productos", conn);
+            SqlDataReader lector = cmd.ExecuteReader();
+            if (lector.HasRows)
+            {
+                lista = new List<Producto>();
+                while (lector.Read())
+                {
+                    Producto producto = new Producto(
+                            lector.GetInt32(0),
+                            lector.GetString(1),
+                            lector.GetString(2),
+                            lector.GetString(3),
+                            CategoriaDAL.Buscar(new Categoria(lector.GetInt32(4)))
+                        );
+
+                    lista.Add(producto);
+                }
+                lector.Close();
+            }
+            conn.Close();
+        }
+    }
+    catch (Exception ex)
+    {
+        new Log(ex.Message);
+    }
+    return lista;
+}
+```
+
 ## Método `Buscar(string codigo, string nombre)` de la clase `ProductoDAL` 
 
 Método para buscar productos por código (búsqueda exacta) o por nombre de producto. La búsqueda por nombre utiliza `LIKE`, comando de base de datos para buscar partes de cadena dentro de un campo.  
@@ -187,6 +227,15 @@ public static bool Actualizar(Producto param1)
 public static bool Eliminar(Producto param1)
 {
     return ProductoDAL.Eliminar(param1);
+}
+```
+
+## Método `ObtenerTodos` de la capa `ProductoBLL` 
+
+```csharp
+public static List<Producto> ObtenerTodos()
+{
+    return ProductoDAL.ObtenerTodos();
 }
 ```
 
